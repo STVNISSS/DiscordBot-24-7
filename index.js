@@ -37,7 +37,7 @@ const app = express();
 app.get('/', (req, res) => res.send('OK - bot running'));
 app.get('/health', (req, res) => res.json({ status: 'ok', bot: !!client.user }));
 
-const port = parseInt(process.env.PORT, 10) || 3000;
+const port = process.env.PORT || 10000;
 const server = app.listen(port, () => {
   console.log(`HTTP server listening on port ${port}`);
 });
@@ -52,3 +52,4 @@ function shutdown() {
 }
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
+
