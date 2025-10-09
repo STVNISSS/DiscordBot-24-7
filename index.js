@@ -1,38 +1,34 @@
-const { Client, GatewayIntentBits } = require('discord.js');
-const TOKEN = process.env.TOKEN;
+const { Client, GatewayIntentBits } = require("discord.js");
 
+// preia tokenul din variabilele de mediu (Render)
+const TOKEN = process.env.TOKEN;
 
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers, // necesar pentru detectarea noilor membri
+    GatewayIntentBits.GuildMembers,
   ],
 });
 
-// Când botul pornește
-client.once('ready', () => {
+client.once("ready", () => {
   console.log(`✅ Botul este online ca ${client.user.tag}`);
 });
 
-// Când intră un nou membru pe server
-client.on('guildMemberAdd', async member => {
-  const roleName = 'Soldato Della Legione'; // schimbă cu numele exact al rolului tău
+client.on("guildMemberAdd", async member => {
+  const roleName = "Soldato Della Legione";
 
   try {
     const role = member.guild.roles.cache.find(r => r.name === roleName);
-
     if (!role) {
-      console.log(`❌ Rolul "${roleName}" nu a fost găsit pe serverul ${member.guild.name}`);
+      console.log(`❌ Rolul "${roleName}" nu există pe serverul ${member.guild.name}`);
       return;
     }
 
     await member.roles.add(role);
     console.log(`✅ Rolul "${roleName}" a fost adăugat lui ${member.user.tag}`);
   } catch (err) {
-    console.error('❌ Eroare la adăugarea rolului:', err);
+    console.error("❌ Eroare la adăugarea rolului:", err);
   }
 });
 
-client.login(token);
-
-
+client.login(TOKEN);
