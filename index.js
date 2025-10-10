@@ -1,8 +1,10 @@
-const { Client, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config.json');
-
-const { Client, GatewayIntentBits, SlashCommandBuilder, Routes } = require("discord.js");
-const { REST } = require("@discordjs/rest");
+const { 
+  Client, 
+  GatewayIntentBits, 
+  SlashCommandBuilder, 
+  Routes, 
+  REST 
+} = require("discord.js");
 
 const TOKEN = process.env.TOKEN; // tokenul din Render
 const GUILD_ID = "1424810686529142941";
@@ -43,10 +45,10 @@ client.on("guildMemberAdd", async member => {
 const commands = [
   new SlashCommandBuilder()
     .setName("idea")
-    .setDescription("Trimite o opinie anonimă în canalul dedicat")
+    .setDescription("Invia un'idea in forma anonima nel canale dedicato")
     .addStringOption(option =>
       option.setName("mesaj")
-        .setDescription("Mesajul tău anonim")
+        .setDescription("Il tuo messaggio anonimo")
         .setRequired(true)
     )
 ].map(command => command.toJSON());
@@ -88,4 +90,4 @@ client.on("interactionCreate", async interaction => {
   }
 });
 
-client.login(TOKEN);
+client.login(process.env.TOKEN);
