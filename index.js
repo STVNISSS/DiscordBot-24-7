@@ -37,53 +37,48 @@ client.once("ready", async () => {
 
   // Înregistrează comanda /idea
   const commands = [
-    new SlashCommandBuilder()
-      .setName("idea")
-      .setDescription("Invia un'idea ai moderatori")
-      .addStringOption(option =>
-        option
-          .setName("mesaggio")
-          .setDescription("Il tuo messaggio")
-          .setRequired(true)
-      )
-  ].map(cmd => cmd.toJSON());
+  new SlashCommandBuilder()
+    .setName("idea")
+    .setDescription("Invia un suggerimento ai moderatori.")
+    .addStringOption(option =>
+      option.setName("mesaggio")
+        .setDescription("Il tuo messaggio. ")
+        .setRequired(true)
+    )
+].map(command => command.toJSON());
 
-  const rest = new REST({ version: "10" }).setToken(TOKEN);
+const rest = new REST({ version: "10" }).setToken(TOKEN);
 
+(async () => {
   try {
     console.log("🔁 Înregistrez comanda /idea...");
-    await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commands });
+    await rest.put(
+      Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
+      { body: commands }
+    );
     console.log("✅ Comanda /idea a fost înregistrată!");
-  } catch (err) {
-    console.error("❌ Eroare la înregistrarea comenzii:", err);
+  } catch (error) {
+    console.error("❌ Eroare la înregistrarea comenzii:", error);
   }
-});
+})();
 
-/* ===== COMANDĂ /idea ===== */
-client.on("interactionCreate", async (interaction) => {
+// === HANDLER PENTRU /opinia ===
+client.on("interactionCreate", async interaction => {
   if (!interaction.isChatInputCommand()) return;
-  if (interaction.commandName !== "idea") return;
+  if (interaction.commandName === "idea") {
+    const mesaj = interaction.options.getString("mesaggio");
+    const canal = interaction.guild.channels.cache.get(CANAL_OPINII);
 
-  const mesaggio = interaction.options.getString("mesaggio");
-
-  try {
-    const canal = await interaction.guild.channels.fetch(CANAL_OPINII);
     if (!canal) {
       return interaction.reply({
-        content: "❌ Canalul pentru opinii nu a fost găsit.",
+        content: "❌Si è verificato un errore...",
         ephemeral: true
       });
     }
 
     await canal.send(`💭 **Idea:** ${mesaggio}`);
     await interaction.reply({
-      content: "✅ La tua idea è stata inviata!",
-      ephemeral: true
-    });
-  } catch (err) {
-    console.error("❌ Eroare la trimiterea ideii:", err);
-    await interaction.reply({
-      content: "❌ A apărut o eroare la trimiterea ideii.",
+      content: "✅ La tua idea è stata inviata ai moderatori !",
       ephemeral: true
     });
   }
