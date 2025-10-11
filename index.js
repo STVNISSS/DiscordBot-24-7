@@ -39,11 +39,11 @@ client.once("ready", async () => {
   const commands = [
     new SlashCommandBuilder()
       .setName("idea")
-      .setDescription("Trimite o idee anonimă în canalul dedicat")
+      .setDescription("Invia un'idea ai moderatori")
       .addStringOption(option =>
         option
-          .setName("mesaj")
-          .setDescription("Mesajul tău anonim")
+          .setName("mesaggio")
+          .setDescription("Il tuo messaggio")
           .setRequired(true)
       )
   ].map(cmd => cmd.toJSON());
@@ -64,7 +64,7 @@ client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
   if (interaction.commandName !== "idea") return;
 
-  const mesaj = interaction.options.getString("mesaj");
+  const mesaggio = interaction.options.getString("mesaggio");
 
   try {
     const canal = await interaction.guild.channels.fetch(CANAL_OPINII);
@@ -75,9 +75,9 @@ client.on("interactionCreate", async (interaction) => {
       });
     }
 
-    await canal.send(`💭 **Idee anonimă:** ${mesaj}`);
+    await canal.send(`💭 **Idea:** ${mesaggio}`);
     await interaction.reply({
-      content: "✅ Ideea ta a fost trimisă anonim!",
+      content: "✅ La tua idea è stata inviata!",
       ephemeral: true
     });
   } catch (err) {
