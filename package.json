@@ -1,18 +1,17 @@
 {
   "name": "discord-bot",
   "version": "1.0.0",
-  "description": "Bot Discord cu auto-role și comanda /idea",
+  "description": "Bot Discord con gestione /idea, ruoli automatici e uptime server",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "STVN",
-  "license": "ISC",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
-    "@discordjs/rest": "^2.6.0",
-    "discord.js": "^14.23.2",
-    "dotenv": "^17.2.3"
+    "discord.js": "^14.16.0",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2"
   }
 }
