@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { 
   Client, 
   GatewayIntentBits, 
@@ -6,7 +7,7 @@ const {
   REST 
 } = require("discord.js");
 
-const TOKEN = process.env.TOKEN; // tokenul din Render
+const TOKEN = process.env.TOKEN;  // tokenul din Render
 const GUILD_ID = "1424810686529142941";
 const CLIENT_ID = "1424879422879699149";
 const CANAL_OPINII = "1426272640863178875";
@@ -71,7 +72,7 @@ const rest = new REST({ version: "10" }).setToken(TOKEN);
 // === HANDLER PENTRU /opinia ===
 client.on("interactionCreate", async interaction => {
   if (!interaction.isChatInputCommand()) return;
-  if (interaction.commandName === "idea") {
+  if (interaction.commandName === "opinia") {
     const mesaj = interaction.options.getString("mesaj");
     const canal = interaction.guild.channels.cache.get(CANAL_OPINII);
 
